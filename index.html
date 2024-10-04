@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard com ChartJS</title>
+</head>
+<style>
+  .chart-container{
+    display: flex;
+    position: relative;
+    width: 80vw;
+    height: 50vh;
+    position: relative;
+  }
+
+  .titulo{
+    display: flex;
+    justify-content: center;
+  }
+</style>
+<body>
+    <div class="titulo">
+      <h1>Análise de temperatura e umidade da Sala 1</h1>
+    </div>
+    <div class="chart-container"> 
+        <canvas id="graficoLinhas"></canvas> 
+        <canvas id="graficoBarras"></canvas><!-- tela para colocar o gráfico -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+
+<script>
+    const graficoBarras = document.getElementById('graficoBarras');
+    const graficoLinhas = document.getElementById('graficoLinhas');
+
+    const labels = {
+      barras:[
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho"
+      ],
+      linhas:['12:00', '13:00','14:00','15:00','16:00','17:00']
+    }
+
+    const legenda = ["Temperatura Média", "Umidade Média"];
+
+    const data = {
+      media:{
+        temperatura:[22, 24,27,23,20,18],
+        umidade:[90,89,93,87,88,82]
+      },
+      captura:{
+        temperatura:[30,29,28,25,22,23],
+        umidade:[80,82,80,85,80,83]
+      }
+    }
+  
+    new Chart(graficoBarras, {
+      type: 'bar',
+      data: {
+        labels: labels.barras,
+        datasets: [{
+          label: legenda[0],
+          backgroundColor: 'rgb(251,99,131)',
+          borderColor: 'rgb(251,99,131)',
+          data: data.media.temperatura,
+        },
+        {
+          label: legenda[1],
+          data: data.media.umidade,
+          backgroundColor: 'rgb(52,163,236)',
+          borderColor: 'rgb(52,163,236)',
+        }
+      ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Relação entre Temperatura Média(ºC) e Umidade Média(%) da Sala 1 por Mês'
+            }
+        }
+      }
+    });
+
+    new Chart(graficoLinhas, {
+      type: 'line',
+      data: {
+        labels: labels.linhas,
+        datasets: [{
+          label: legenda[0],
+          backgroundColor: 'rgb(251,99,131)',
+          borderColor: 'rgb(251,99,131)',
+          data: data.captura.temperatura,
+        },
+        {
+          label: legenda[1],
+          data: data.captura.umidade,
+          backgroundColor: 'rgb(52,163,236)',
+          borderColor: 'rgb(52,163,236)',
+        }
+      ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Relação entre Temperatura(ºC) e Umidade(%) da Sala 1 ao Horário da Coleta'
+            }
+        }
+      }
+    });
+  </script>
